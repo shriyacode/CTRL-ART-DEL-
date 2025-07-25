@@ -1,0 +1,771 @@
+/* --- Global Styles & Resets --- */
+:root {
+    /* Pastel Nature-based Colors (Adjust these hex codes to your preference!) */
+    --pastel-green: #A7D7C5; /* Light Sage */
+    --pastel-blue: #B3D9ED; /* Sky Blue */
+    --pastel-pink: #F4C2C2; /* Blush Pink */
+    --pastel-yellow: #F9E79F; /* Soft Yellow */
+    --pastel-lavender: #D0BFFF; /* Muted Lavender */
+    --dark-forest: #2C3E50; /* Deep Blue-Green, for text/accents */
+    --light-sage: #E8F5E9; /* Very light, almost white green, for background */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth; /* Smooth scrolling for anchor links */
+}
+
+body {
+    /* Set all basic text to Noto Serif, bold, like "Walkthrough" */
+    font-family: 'Noto Serif', serif;
+    font-weight: 700; /* All body text will be bold */
+    line-height: 1.6;
+    color: var(--dark-forest);
+    background-color: var(--light-sage);
+    overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+    -webkit-font-smoothing: antialiased; /* Better font rendering */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove or comment out the @font-face rule for 'Happines'
+   if you are no longer using it anywhere */
+/* @font-face {
+    font-family: 'Happines';
+    src: url('fonts/happines.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+
+/* Custom Fonts - Consolidated:
+   All these elements will now inherit from 'body' or explicitly use Noto Serif.
+   We'll make sure they have the desired size and weight. */
+.site-title,
+.section-title,
+.hero-title,
+h3,
+.main-nav a, /* Navigation links */
+.about-content p, /* About section text */
+.instagram-button, /* Instagram button text */
+.main-gallery-item .overlay p, /* Artwork description in overlay */
+.main-footer p /* Footer text */
+{
+    font-family: 'Noto Serif', serif; /* Explicitly set for consistency */
+    font-weight: 700; /* Ensure bold for all these elements */
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--pastel-yellow); /* Example hover effect */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Header --- */
+.main-header {
+    background-color: var(--pastel-blue);
+    padding: 20px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky; /* Keeps header at top on scroll */
+    top: 0;
+    z-index: 1000; /* Ensures header is above other content */
+    transition: background-color 0.3s ease;
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title {
+    font-size: 2.8em; /* Keep specific size */
+    color: var(--dark-forest);
+    line-height: 1;
+}
+
+.site-title a {
+    transition: color 0.3s ease;
+}
+
+.site-title a:hover {
+    color: var(--pastel-yellow);
+}
+
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.main-nav a {
+    font-size: 1.1em; /* Keep specific size */
+    color: var(--dark-forest);
+    padding: 5px 0;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+/* Underline effect on hover */
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--dark-forest);
+    transition: width 0.3s ease-out;
+}
+
+.main-nav a:hover::after {
+    width: 100%;
+}
+
+/* --- Hero Section (Contains Auto-Scrolling Background Gallery) --- */
+.hero-section {
+    position: relative;
+    height: 85vh; /* Adjust height as needed */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Crucial to contain the background gallery */
+}
+
+/* Background Gallery Container */
+.background-gallery-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Fill hero section */
+    overflow: hidden; /* Hide anything outside */
+    z-index: 0; /* Keep it behind everything else */
+    pointer-events: none; /* Crucial: Allows clicks to go through to title/overlay */
+}
+
+.background-gallery-grid {
+    display: flex; /* Horizontal layout */
+    height: 100%;
+    align-items: center;
+    position: relative;
+    will-change: transform;
+    gap: 30px; /* Adjust gap for visual density */
+}
+
+.background-gallery-item {
+    /* Original size was min-width: 400px; height: 400px; */
+    /* Increased by 0.5x (1.5 times the original size) */
+    min-width: 600px; /* 400 * 1.5 = 600 */
+    height: 600px; /* 400 * 1.5 = 600 */
+    background-color: rgba(255, 255, 255, 0.1); /* Very subtle white background */
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+    flex-shrink: 0;
+
+    /* Styling for non-active background items */
+    opacity: 0.3; /* Very low opacity */
+    transform: scale(0.6); /* Much smaller */
+    filter: grayscale(100%) brightness(0.8); /* Desaturated and slightly darker */
+    transition: transform 0.5s ease-out, opacity 0.5s ease-out, filter 0.5s ease-out; /* Smooth transition */
+}
+
+/* Active background item (central) */
+.background-gallery-item.is-active {
+    opacity: 0.6; /* Slightly more visible when central */
+    transform: scale(0.9); /* Slightly larger */
+    filter: grayscale(50%) brightness(0.9); /* More color, brighter, but still background */
+}
+
+.background-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* Hero title (positioned above background gallery) */
+.hero-title {
+    font-size: 4em; /* Keep specific size */
+    color: white; /* Keep specific color */
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.8); /* Stronger shadow for contrast */
+    text-align: center;
+    padding: 0 20px;
+    z-index: 10; /* Make sure it's above the background gallery */
+    position: relative; /* Needs to be relative for z-index to work against static siblings */
+
+    /* Animation */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 1s ease-out;
+    /* Font styles are now handled by the consolidated rule above */
+    font-style: normal; /* Override any lingering italics */
+}
+
+.hero-title.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- Main Gallery Section (Standard Grid + Large Featured Thumbnail) --- */
+.gallery-section {
+    padding: 80px 0;
+    background-color: transparent;
+}
+
+.main-gallery-grid {
+    column-count: 3; /* Changed from 4 to 3 for larger individual images */
+    column-gap: 36px; /* Increased from 18px to 36px for more space between images (0.5x increase) */
+    max-width: 1800px; /* Increased from 1600px to 1800px to make columns wider */
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .main-gallery-grid {
+        column-count: 2; /* Changed from 3 to 2 for larger images on medium screens */
+        column-gap: 30px; /* Adjusted gap for this breakpoint */
+    }
+}
+@media (max-width: 800px) {
+    .main-gallery-grid {
+        column-count: 2; /* Remains 2 columns, but images will be larger due to overall larger scale */
+        column-gap: 25px; /* Adjusted gap for this breakpoint */
+    }
+}
+@media (max-width: 500px) {
+    .main-gallery-grid {
+        column-count: 1; /* Remains 1 column */
+        column-gap: 20px; /* Adjusted gap for this breakpoint */
+    }
+}
+/* Masonry style for gallery items */
+.main-gallery-item {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 36px; /* Increased margin-bottom to match column-gap for consistency */
+    break-inside: avoid;
+}
+.main-gallery-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+
+/* Custom style for 'My Canvas Creations' section title - keep specific size, font-family handled above */
+#gallery .section-title {
+    font-size: 2.8rem;
+    text-align: center;
+    margin-top: 2.5rem;
+    margin-bottom: 2.2rem;
+    letter-spacing: 0.03em;
+    color: #2d1a0b;
+    /* font-family and font-weight are now managed by the consolidated rule for .section-title */
+}
+
+/* Styling for the large featured thumbnail */
+.main-gallery-item.main-featured-masonry {
+    width: 100%;
+    aspect-ratio: 2/1;
+    min-height: 570px; /* Increased from 380px by 0.5x (380 * 1.5 = 570) */
+    max-width: none;
+    margin-bottom: 36px; /* Increased margin-bottom to match new column-gap */
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+    font-size: 1.18em;
+    box-shadow: 0 10px 36px rgba(0,0,0,0.18);
+    z-index: 1;
+    background: #fff;
+    break-inside: avoid;
+
+    /* Animation for scroll-in (same as other thumbnails) */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out, box-shadow 0.3s ease;
+}
+
+.main-gallery-item.main-featured-masonry.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.main-gallery-item.main-featured-masonry:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transform: translateY(-5px) scale(1.01);
+}
+
+.main-gallery-item.main-featured-masonry img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.main-gallery-item.main-featured-masonry:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay for text on featured painting */
+.main-gallery-item.main-featured-masonry .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out, background-color 0.3s ease;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    color: white;
+}
+
+.main-gallery-item.main-featured-masonry:hover .overlay {
+    transform: translateY(0);
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.main-gallery-item.main-featured-masonry .overlay h3 {
+    font-size: 2.5em;
+    color: var(--dark-forest);
+}
+.main-gallery-item.main-featured-masonry .overlay p {
+    font-size: 1.2em;
+    color: #444;
+}
+
+
+/* Standard Main Gallery Items */
+.main-gallery-item {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
+    cursor: pointer;
+
+    /* Animation for scroll-in */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out, box-shadow 0.3s ease;
+}
+
+.main-gallery-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.main-gallery-item:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transform: translateY(-5px) scale(1.01);
+}
+
+.main-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.main-gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay for text on standard items */
+.main-gallery-item .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
+}
+
+.main-gallery-item:hover .overlay {
+    transform: translateY(0);
+}
+
+.main-gallery-item .overlay h3 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: var(--dark-forest);
+}
+
+.main-gallery-item .overlay p {
+    font-size: 0.95em;
+    color: #666;
+}
+
+
+/* --- About Section --- */
+.about-section {
+    padding: 80px 0;
+    background-color: var(--pastel-blue);
+    text-align: center;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1.1em;
+    line-height: 1.8;
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.about-content.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.about-content p {
+    margin-bottom: 20px;
+}
+
+/* --- Contact Section --- */
+.contact-section {
+    padding: 80px 0;
+    background-color: var(--pastel-pink);
+    text-align: center;
+}
+
+.instagram-button {
+    display: inline-block;
+    background-color: var(--dark-forest);
+    color: white;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-size: 1.2em;
+    margin-top: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.instagram-button.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.instagram-button:hover {
+    background-color: var(--pastel-yellow);
+    color: var(--dark-forest);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+
+/* --- Footer --- */
+.main-footer {
+    background-color: var(--dark-forest);
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    font-size: 0.9em;
+}
+
+/* --- Lightbox for Gallery Images (WITH CAROUSEL) --- */
+#lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 3em;
+    color: #aaa;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s ease;
+    line-height: 1;
+    padding: 5px;
+}
+
+.close-button:hover {
+    color: #f00;
+}
+
+.carousel-container {
+    width: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+    position: relative;
+    max-height: 70vh;
+}
+
+.carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
+}
+
+.carousel-item {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.carousel-item img {
+    max-width: 90vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px 10px;
+    font-size: 2em;
+    cursor: pointer;
+    z-index: 5;
+    transition: background-color 0.2s ease;
+    border-radius: 5px;
+}
+
+.carousel-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background-color: #f0f0f0;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.dot.active {
+    background-color: var(--dark-forest);
+    transform: scale(1.2);
+}
+
+.lightbox-text h3 {
+    font-size: 1.8em;
+}
+.lightbox-text p {
+    font-size: 1em;
+}
+
+
+/* --- Responsive Design (Media Queries) --- */
+@media (max-width: 1024px) {
+    /* Background gallery items (already handled in previous request) */
+    .background-gallery-item {
+        min-width: 450px;
+        height: 450px;
+    }
+    .main-gallery-grid {
+        column-count: 2; /* Remains 2 columns */
+        column-gap: 30px;
+    }
+    .main-gallery-item.main-featured-masonry {
+        grid-column: span 2;
+        min-height: 500px;
+        grid-row: span 2;
+    }
+    .main-gallery-item img {
+        height: auto;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .site-title {
+        font-size: 2.2em;
+    }
+
+    .main-nav ul {
+        gap: 15px;
+    }
+
+    .main-nav a {
+        font-size: 1em;
+    }
+
+    .hero-section {
+        height: 70vh;
+    }
+
+    .hero-title {
+        font-size: 2.5em;
+    }
+
+    .section-title {
+        font-size: 2.5em;
+        margin-bottom: 40px;
+    }
+
+    /* Background gallery items (already handled in previous request) */
+    .background-gallery-item {
+        min-width: 375px;
+        height: 375px;
+    }
+    .main-gallery-grid {
+        column-count: 1; /* Remains 1 column */
+        column-gap: 20px;
+    }
+    .main-gallery-item.main-featured-masonry {
+        grid-column: span 1;
+        min-height: 450px;
+        grid-row: auto;
+    }
+    .main-gallery-item img {
+        height: auto;
+    }
+
+    .instagram-button {
+        padding: 12px 30px;
+        font-size: 1.1em;
+    }
+
+    /* Lightbox adjustments */
+    .lightbox-content {
+        max-width: 95%;
+        max-height: 95%;
+    }
+    .carousel-button {
+        padding: 10px 8px;
+        font-size: 1.5em;
+    }
+    .close-button {
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .main-nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .site-title {
+        font-size: 2em;
+    }
+
+    .hero-title {
+        font-size: 1.8em;
+    }
+
+    .section-title {
+        font-size: 2em;
+    }
+
+    .about-content {
+        font-size: 1em;
+    }
+
+    /* Background gallery items (already handled in previous request) */
+    .background-gallery-item {
+        min-width: 270px;
+        height: 270px;
+    }
+    .main-gallery-grid {
+        column-count: 1;
+        gap: 15px;
+        padding: 0 15px;
+    }
+    .main-gallery-item img {
+        height: auto;
+    }
+    .main-gallery-item.main-featured-masonry {
+        min-height: 350px;
+        grid-column: span 1;
+    }
+}

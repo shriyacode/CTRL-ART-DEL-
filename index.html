@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CTRL ART DEL - Canvas Paintings Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    </head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <h1 class="site-title"><a href="#">CTRL ART DEL by Shriya </a></h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero-section">
+            <div class="background-gallery-container" id="background-gallery-container">
+                <div class="background-gallery-grid" id="background-gallery-grid">
+                    </div>
+            </div>
+            <h2 class="hero-title">Innerverse, Brushed🫧</h2>
+        </section>
+
+        <section id="gallery" class="gallery-section container">
+            <h2 class="section-title">Walkthrough</h2>
+            <div class="main-gallery-grid" id="main-gallery-grid">
+                </div>
+        </section>
+
+        <section id="about" class="about-section container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <p>Hi, I’m an occasional artist with an unusual paintbrush addiction and a deep love for canvas. I don’t paint every day, but when I do, I let the brush take over and tell its own story.
+
+Painting, for me, is a quiet form of devotion - a way to listen inward and transform emotion into form. My art lives on canvas but thinks way beyond it; each piece is a little glitch in reality where texture meets thought. There’s something grounding about turning abstract ideas into something tangible, layered, and real.
+
+</p><p>A visual journal of how I process life? Definitely.</p>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section container">
+            <h2 class="section-title">“Art enables us to find ourselves and lose ourselves at the same time.” </h2>
+            
+            <a href="https://www.instagram.com/ctrl_art_del__/" target="_blank" rel="noopener noreferrer" class="instagram-button">
+                Follow on Instagram: @ctrl_art_del__
+            </a>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 CTRL ART DEL. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div id="lightbox">
+        <div class="lightbox-content">
+            <span class="close-button">&times;</span>
+            <div class="carousel-container">
+                <div class="carousel-track" id="carousel-track">
+                    </div>
+                <button class="carousel-button prev" id="carousel-prev">&#10094;</button>
+                <button class="carousel-button next" id="carousel-next">&#10095;</button>
+                <div class="carousel-dots" id="carousel-dots">
+                    </div>
+            </div>
+            <div class="lightbox-text">
+                <h3 id="lightbox-title"></h3>
+                <p id="lightbox-description"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
